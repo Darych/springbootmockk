@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @ExtendWith(SpringExtension::class)
 @WebMvcTest(Controller::class)
-internal class ControllerTest{
+internal class ControllerTest {
 
     @TestConfiguration
     class ControllerTestConfig {
@@ -42,7 +42,10 @@ internal class ControllerTest{
         val expectedMessage = "Hello, Username!"
         every { service.getPersonalizedHello(lowerCaseName) } returns expectedMessage
 
-        val result = mockMvc.perform(get("/hello?name=$lowerCaseName")).andExpect(status().isOk).andDo(print()).andReturn()
+        val result = mockMvc.perform(get("/hello?name=$lowerCaseName"))
+            .andExpect(status().isOk)
+            .andDo(print())
+            .andReturn()
 
         assertEquals(expectedMessage, result.response.contentAsString)
         verify { service.getPersonalizedHello(lowerCaseName) }
